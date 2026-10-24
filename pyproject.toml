@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pywipex"
+version = "0.1.0"
+description = "CLI tool for bulk-deleting tweets (X posts) via the official X API"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.1",
+    "flask>=3.0",
+    "xdk>=0.10",
+]
+
+[project.scripts]
+pywipex = "pywipex.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pywipex"]
