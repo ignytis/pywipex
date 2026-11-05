@@ -6,13 +6,29 @@ expressions, and bulk-delete them.
 
 > **Warning:** deletions are real and irreversible.
 
-## Prerequisites
+## Getting started
 
-- Python 3.10+ and [`uv`](https://docs.astral.sh/uv/)
-- An X developer app with OAuth 2.0 enabled and a funded (paid) developer account; see
-  [Setting up the X app](#setting-up-the-x-app).
+1. [Install](#installation) pywipex.
+2. [Set up an X app](#setting-up-the-x-app) and get its OAuth 2.0 Client ID.
+3. [Use](#usage) the commands.
+
+(To work on the code itself, see [Development](#development).)
+
+## Installation
+
+Requires Python 3.10+.
+
+```
+pip install pywipex
+```
+
+Or install it in an isolated environment with [`pipx`](https://pipx.pypa.io/) (`pipx install pywipex`) or run it without
+installing using [`uv`](https://docs.astral.sh/uv/) (`uvx pywipex --help`). Check the installation with `pywipex --help`.
 
 ## Setting up the X app
+
+pywipex talks to the X API on your behalf, so you need your own X developer app (OAuth 2.0 enabled) and a funded
+(paid) developer account.
 
 > **Warning: the X API is paid.** X uses pay-per-use pricing: you buy credits upfront in the Developer Console
 > (with a payment method such as a credit card) and each API request draws them down. Deleting posts through the API
@@ -40,14 +56,6 @@ expressions, and bulk-delete them.
    `pywipex delete tweets_to_delete.jsonl --client-id "$(cat path/to/client_id)"`.
 
 The portal UI changes from time to time, so field names may differ slightly.
-
-## Installation
-
-```
-uv sync
-```
-
-`uv sync` creates `.venv` from the committed `uv.lock` and installs the project in editable mode. Then either activate the venv (`source .venv/bin/activate`) or call `.venv/bin/pywipex` directly.
 
 ## Usage
 
@@ -107,6 +115,16 @@ pywipex delete tweets_to_delete.csv --client-id YOUR_ID --remaining-file remaini
 ```
 
 ## Development
+
+Requires Python 3.10+ and [`uv`](https://docs.astral.sh/uv/). Clone the repository, then:
+
+```
+uv sync
+```
+
+`uv sync` creates `.venv` from the committed `uv.lock` and installs the project in editable mode. Then either activate
+the venv (`source .venv/bin/activate`) or call `.venv/bin/pywipex` directly. Use `uv add PKG` to add a dependency
+(this also updates `uv.lock`).
 
 Source lives in `src/pywipex/`:
 
