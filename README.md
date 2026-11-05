@@ -9,9 +9,37 @@ expressions, and bulk-delete them.
 ## Prerequisites
 
 - Python 3.10+ and [`uv`](https://docs.astral.sh/uv/)
-- An X developer app with OAuth 2.0 enabled, the callback URL `http://localhost:8080/callback` registered
-  (or `http://localhost:PORT/callback` if you use `--port`),
-  and the scopes `tweet.read tweet.write users.read offline.access`.
+- An X developer app with OAuth 2.0 enabled and a funded (paid) developer account; see
+  [Setting up the X app](#setting-up-the-x-app).
+
+## Setting up the X app
+
+> **Warning: the X API is paid.** X uses pay-per-use pricing: you buy credits upfront in the Developer Console
+> (with a payment method such as a credit card) and each API request draws them down. Deleting posts through the API
+> is a billable write request, so you must top up the developer account before `pywipex delete` will work.
+> The pricing page lists "Interaction: Delete" at about $0.01 per request, but does not name `DELETE /2/tweets/:id`
+> explicitly, so check the current rates at <https://docs.x.com/x-api/getting-started/pricing> and estimate the cost
+> for your number of tweets first. Without credits the API returns an error and the run aborts
+> (the `--remaining-file` is still written).
+
+1. Sign in at <https://developer.x.com> and sign up for a developer account.
+2. In the Developer Console, create an app (inside a Project if prompted).
+3. Add credits under the billing section of the Developer Console.
+4. Open the app's settings, find **User authentication settings** and click **Set up**:
+   - **App permissions:** Read and write
+   - **Type of App:** Native App (public client, PKCE; no client secret is needed). Choosing "Web App" can cause an
+     `unauthorized_client` error.
+   - **Callback URI / Redirect URL:** `http://localhost:8080/callback`
+     (or `http://localhost:PORT/callback` if you use `--port`)
+   - **Website URL:** any valid URL (the form requires one)
+   - Save. The scopes pywipex requests are `tweet.read tweet.write users.read offline.access`.
+5. Open the **Keys and tokens** tab and copy the **OAuth 2.0 Client ID** (it appears only after step 4). Ignore the
+   API Key/Secret, Bearer Token and Client Secret; pywipex does not use them.
+6. Pass the ID with `--client-id`, or export it: `export PYWIPEX_CLIENT_ID=YOUR_ID`.
+   To keep it out of your shell history, store it in a file (outside version control) and read it from there:
+   `pywipex delete tweets_to_delete.jsonl --client-id "$(cat path/to/client_id)"`.
+
+The portal UI changes from time to time, so field names may differ slightly.
 
 ## Installation
 
