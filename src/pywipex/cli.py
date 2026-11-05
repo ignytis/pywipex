@@ -2,7 +2,9 @@ import logging
 
 import click
 
+from pywipex.commands.convert import convert
 from pywipex.commands.delete import delete
+from pywipex.commands.filter import filter_command
 
 
 @click.group()
@@ -15,4 +17,6 @@ def main() -> None:
     )
 
 
+main.add_command(convert)
+main.add_command(filter_command)
 main.add_command(delete)

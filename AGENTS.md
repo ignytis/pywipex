@@ -24,7 +24,9 @@ account, so don't run it without the user's explicit go-ahead.
 - `src/pywipex/cli.py` – `click` group `main`; new commands are registered with `main.add_command(...)`.
 - `src/pywipex/auth.py` – `authenticate(client_id, port=8080)`: `OAuth2PKCEAuth` with scopes `tweet.read tweet.write users.read offline.access`,
   local Flask callback server (redirect URI is `http://localhost:{port}/callback`), returns the token dict. The dict is passed to `Client(token=...)` so the SDK can refresh automatically.
-- `src/pywipex/commands/delete.py` – `delete` command. Input file is one bare tweet ID per line, no header (the repo's
+- `src/pywipex/commands/convert.py` – `convert`: archive `tweets.js` (`window.YTD.*.partN = [...]`) -> JSON Lines.
+- `src/pywipex/commands/filter.py` – `filter -e EXPR`: keeps JSONL records where a `simpleeval` expression is true (vars: id, created_time, favorite_count, retweet_count, full_text).
+- `src/pywipex/commands/delete.py` – `delete` command. Input file is one tweet per line, either a bare ID or a JSONL record (id taken from `tweet.id_str`), no header (the repo's
   `tweets_to_delete.csv` is not really CSV). `PostsClient.delete(id)` per ID; `requests.ConnectionError` is retried every 5 s
   indefinitely; the X limit is 50 deletes per 15 minutes, so it sleeps 15 min after every 50.
   If it stops early and `--remaining-file` is given, the unprocessed IDs (including the in-flight one) are written there (`try/finally`).

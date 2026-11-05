@@ -1,3 +1,4 @@
+import json
 import logging
 import time
 from datetime import datetime, timedelta
@@ -18,8 +19,22 @@ logger = logging.getLogger(__name__)
 
 
 def _read_ids(path: str) -> list[str]:
-    with open(path) as f:
-        return [line.strip() for line in f if line.strip()]
+    """Read tweet IDs: one per line, either a bare ID or a JSON Lines record (see `filter`)."""
+    ids = []
+    with open(path, encoding="utf-8") as f:
+        for line_no, line in enumerate(f, 1):
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith("{"):
+                try:
+                    record = json.loads(line)
+                    tweet = record.get("tweet", record)
+                    line = str(tweet.get("id_str") or tweet["id"])
+                except (ValueError, KeyError, AttributeError) as e:
+                    raise click.ClickException(f"{path}, line {line_no}: cannot find a tweet ID ({e!r})") from e
+            ids.append(line)
+    return ids
 
 
 def _describe_http_error(error: HTTPError) -> str:
