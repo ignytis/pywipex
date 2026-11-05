@@ -10,7 +10,7 @@ It is packaged with `pyproject.toml` (hatchling, `src/` layout). There is no tes
 ## Setup and running
 
 ```
-uv venv && uv pip install -e .
+uv sync   # installs from uv.lock; use `uv add PKG` to add a dependency and update the lock
 .venv/bin/pywipex --help
 .venv/bin/pywipex delete INPUT_FILE [--remaining-file PATH] --client-id ID [--port PORT]
 ```

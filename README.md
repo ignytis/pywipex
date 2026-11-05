@@ -16,11 +16,10 @@ expressions, and bulk-delete them.
 ## Installation
 
 ```
-uv venv
-uv pip install -e .
+uv sync
 ```
 
-Then either activate the venv (`source .venv/bin/activate`) or call `.venv/bin/pywipex` directly.
+`uv sync` creates `.venv` from the committed `uv.lock` and installs the project in editable mode. Then either activate the venv (`source .venv/bin/activate`) or call `.venv/bin/pywipex` directly.
 
 ## Usage
 
