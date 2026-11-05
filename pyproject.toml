@@ -1,13 +1,28 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
 name = "pywipex"
-version = "0.1.0"
+version = "1.0.0"
 description = "CLI tool for bulk-deleting tweets (X posts) via the official X API"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Ignytis" }]
+keywords = ["twitter", "x", "tweets", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+]
 dependencies = [
     "click>=8.1",
     "flask>=3.0",
@@ -15,8 +30,16 @@ dependencies = [
     "xdk>=0.10",
 ]
 
+[project.urls]
+Homepage = "https://github.com/ignytis/pywipex"
+Source = "https://github.com/ignytis/pywipex"
+Issues = "https://github.com/ignytis/pywipex/issues"
+
 [project.scripts]
 pywipex = "pywipex.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pywipex"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "README.md", "LICENSE", "pyproject.toml"]
